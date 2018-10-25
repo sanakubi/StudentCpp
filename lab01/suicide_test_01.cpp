@@ -53,7 +53,7 @@ int main()
  
  string expression; 
  cin>>expression; 
- cout<<" |||||||| "<<endl; 
+ cout<<" Ok! "<<endl; 
  stack<char> symbols; 
  vector<char> exit_string; 
  stack<double> result; 
