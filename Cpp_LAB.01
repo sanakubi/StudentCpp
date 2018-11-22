@@ -1,0 +1,86 @@
+// calculator-OPZ. v.2.1. Popov.V.A. KE-106
+
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+
+bool sym_check(char sym){
+    switch (sym){
+        case '+': return 1;
+        case '-': return 1;
+        case '(': return 1;
+        case '^': return 1;
+        case '/': return 1;
+        case '*': return 1;
+    } return 0;
+}
+bool low_pr(char sym){
+    switch(sym){
+        case '+': return true;
+        case '-': return true;
+    } return false;
+}
+bool mid_pr(char sym){
+    switch(sym){
+        case '/': return true;
+        case '*': return true;
+    }return false;
+}
+bool high_pr(char sym){
+        switch(sym){
+            case '^': return true;
+            case '#': return true;
+        }
+}
+
+int main()
+{
+    char *mas = new char[100];
+    cin.getline(mas, 100);
+    cout<< strlen(mas)<< " - " << mas<<endl;
+    int *buffer = new int;
+    char exit[strlen(mas)];int exitid=0;
+    char stk[strlen(mas)];int stkid=0;
+
+    for(int i=0;i<strlen(mas);i++){
+        if(!sym_check(mas[i]) /*mas[i]>='0'&&mas[i]<='9'*/){
+                exit[exitid]=mas[i];
+                exitid++;
+        }else if(sym_check(mas[i])){
+                    if(low_pr(mas[i])){
+                            stk[stkid]=mas[i];
+                            stkid++;
+                 } else if(mid_pr(mas[i])){
+                            stk[stkid]=mas[i];
+                            stkid++;
+                 } else if(high_pr(mas[i])){
+                        exit[exitid]=mas[i];
+                        exitid++;
+                 }/* else {if
+                        exit[exitid]=mas[i];
+                 }*/
+        }
+    }
+  /*  while(stkid!=0){
+        exit[exitid]=stk[stkid];
+        exitid++;stkid--;
+    }*/
+    //////// test without ( ) and prioritet)0)
+    for(int i=stkid;i>=0;i--){
+        cout<<exit[i+1]<<stk[i]<<endl;
+    }
+
+    ////////
+    for(int l=0;l<exitid;l++){
+        cout<<exit[l];
+    }
+    cout<<endl;
+    for(int l=0;l<stkid;l++){
+        cout<<stk[l];
+    }
+    delete buffer;
+    delete[]mas;
+    return 0;
+}
