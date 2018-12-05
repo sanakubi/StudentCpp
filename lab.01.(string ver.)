@@ -7,10 +7,8 @@
 
 using namespace std;
 
-bool is_symbol(char sym)
-{
-    switch(sym)
-    {
+bool is_symbol(char sym){
+    switch(sym){
         case '+': return true;
         case '-': return true;
         case '(': return true;
@@ -22,33 +20,27 @@ bool is_symbol(char sym)
     return false;
 }
  
-bool mid_pr(char sym)
-{
-    switch(sym)
-    {
+bool mid_pr(char sym){
+    switch(sym){
         case '/': return true;
         case '*': return true;
     }
     return false;
 }
  
-bool low_pr(char sym)
-{
-    switch(sym)
-    {
+bool low_pr(char sym){
+    switch(sym){
         case '-': return true;
         case '+': return true;
     }
     return false;
 }
  
-bool high_pr(char sym)
-{
+bool high_pr(char sym){
     return sym == '^' ? true : false;
 }
  
-int main()
-{
+int main(){
     cin>>expression;
     stack<char> symbols;
     vector<char> exit_string;
