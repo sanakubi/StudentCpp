@@ -60,7 +60,8 @@ int main()
 
     }
     cout<<input<< " | " << exit<< " | " << operstack <<endl;
-
+    delete[] operstack;
+    delete[] exit;
     delete[] input;
     return 0;
 }
