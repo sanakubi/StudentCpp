@@ -1,94 +1,100 @@
 #include <iostream>
-#include <stack>
-#include <vector>
-#include <iterator>
-#include <algorithm>
-#include <math.h>
+#include <cstring>
 
 using namespace std;
 
-bool is_symbol(char sym){
-    switch(sym){
-        case '+': return true;
-        case '-': return true;
-        case '(': return true;
-        case '^': return true;
-        // ---------- //
-        case '/': return true;
-        case '*': return true;
-    }
-    return false;
+bool symbol_check(char sym){
+    switch(sym)
+    {
+        case '+': return true;
+        case '-': return true;
+        case '(': return true;
+        case ')': return true;
+        case '^': return true;
+        case '/': return true;
+        case '*': return true;
+    }
+    return false;
 }
- 
-bool mid_pr(char sym){
-    switch(sym){
-        case '/': return true;
-        case '*': return true;
-    }
-    return false;
+
+int priority(char sym){
+    switch(sym)
+    {
+        case '(': return 1;
+        case '+': return 2;
+        case '-': return 2;
+        case '^': return 4;
+        case '/': return 3;
+        case '*': return 3;
+    }
+    return 0;
 }
- 
-bool low_pr(char sym){
-    switch(sym){
-        case '-': return true;
-        case '+': return true;
-    }
-    return false;
-}
- 
-bool high_pr(char sym){
-    return sym == '^' ? true : false;
-}
- 
-int main(){
-    cin>>expression;
-    stack<char> symbols;
-    vector<char> exit_string;
-    stack<double> result;
-    double buffer = 0;
- 
-    for(string::iterator it = expression.begin(); it != expression.end(); ++it){
-        if(::isdigit(*it)) exit_string.push_back(*it); // Если это цифра
-        else if(is_symbol(*it)){
-            if(low_pr(*it)){
-                if(symbols.size() && !low_pr(symbols.top())){
-                    exit_string.push_back(symbols.top());
-                    symbols.pop();
-                }
-                symbols.push(*it);
-            }else if(mid_pr(*it)){
-                if(symbols.size() && high_pr(symbols.top())){
-                    exit_string.push_back(symbols.top());
-                    symbols.pop();
-                }
-                symbols.push(*it);
-            }else if(high_pr(*it)){
-                symbols.push(*it);
-            }
-            else symbols.push(*it);
-        }else if(*it == ')'){
-            while(symbols.top() != '('){
-                cout << "\n1";
-                exit_string.push_back(symbols.top());
-                symbols.pop();
-            }if(symbols.size()) { symbols.pop(); }
-        }
-    }
-    while(symbols.size()) { exit_string.push_back(symbols.top()); symbols.pop(); }
-    copy(exit_string.begin(), exit_string.end(), ostream_iterator<char>(cout, " "));
- 
-    for(vector<char>::iterator it = exit_string.begin(); it != exit_string.end(); ++it){
-        if(::isdigit(*it)) result.push(*it - '0');
-        else
-            switch(*it)
-            {
-            case '+': { buffer = result.top(); result.pop(); result.top() += buffer; break; }
-            case '-': { buffer = result.top(); result.pop(); result.top() -= buffer; break; }
-            case '*': { buffer = result.top(); result.pop(); result.top() *= buffer; break; }
-            case '/': { buffer = result.top(); result.pop(); result.top() /= buffer; break; }
-            case '^': { buffer = result.top(); result.pop(); result.top() = pow(result.top(), buffer); break; }
-            }
-    }
-    cout << "\n --- " << result.top();
-    return 0;
+
+
+int main()
+{
+    char *input = new char[100];
+    cin.getline(input, 100);
+    char *exit = new char[strlen(input)-1]; int exitid=0;
+    char *operstack = new char[strlen(input)-1]; int ostid=0;
+    int *calculation = new int[10]; int calc=0;
+    //input[strlen(input)]='!';
+
+    for(int i=0;i<strlen(input);){
+            if(!symbol_check(input[i])){
+                    exit[exitid]=input[i];
+                    i++; exitid++;
+            } else if(symbol_check(input[i])){
+                    if(ostid>0){
+                            if(priority(input[i])<=priority(operstack[ostid-1])){
+                                exit[exitid]=operstack[ostid-1];
+                                operstack[ostid-1]=input[i];
+                                exitid++;
+                                cout<< "first"<<input[i]<<endl;
+                            }else if(priority(input[i])>priority(operstack[ostid-1])){
+                                operstack[ostid]=input[i];
+                                ostid++;
+                                cout<<"second"<<input[i]<<endl;
+                            }
+                    }else if(ostid==0){
+                            operstack[ostid]=input[i];
+                            ostid++;
+                            cout<<"third"<< input[i]<<endl;
+                    }
+             i++;
+            }
+
+    }
+
+    for(int i=ostid;i>=0;i--){
+        exit[exitid]=operstack[i];
+        exitid++;
+        cout<<exit[exitid]<<operstack[i]<<endl;
+    }
+
+/*
+    for(int i=0;i<=exitid;i++){
+        if(!symbol_check(exit[i])){
+            calculation[calc]=(int)exit[i]-48;
+            calc++;
+        }else if(symbol_check(exit[i])){
+            switch(exit[i]){
+                case'+':{calculation[calc-1]=calculation[calc-1]+calculation[calc];}
+                case'-':{calculation[calc-1]=calculation[calc-1]-calculation[calc];}
+                case'*':{calculation[calc-1]=calculation[calc]*calculation[calc-1];}
+                case'/':{calculation[calc-1]=calculation[calc]/calculation[calc-1];}
+                //case'^':{}
+            }
+        }
+
+    }
+*/
+    //cout<<input<< " | " << exit<< " | " << operstack <<endl;
+      cout<<exit<< " | " << operstack <<endl;
+
+
+    delete[] operstack;
+    delete[] exit;
+    delete[] input;
+    return 0;
 }
