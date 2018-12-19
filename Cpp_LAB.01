@@ -1,11 +1,12 @@
 #include <iostream>
 #include <cstring>
+#include <cmath>
 
 using namespace std;
 
 bool symbol_check(char sym){
     switch(sym)
-    {
+    { case '*': return 3;
         case '+': return true;
         case '-': return true;
         case '(': return true;
@@ -30,19 +31,18 @@ int priority(char sym){
     return 0;
 }
 
-int ultrapain(int first,int second, char operation)
-{
-    switch(operation){
-    case'+': return first+second;
-    case'-': return first-second;
-    case'*': return first*second;
-    case'/': return first/second;
-    //case'^':
+int ultrapain(int first,int second, char operation){
+    switch(operation)
+    {
+        case'+': return first+second;
+        case'-': return first-second;
+        case'*': return first*second;
+        case'/': return first/second;
+        case'^': return pow(first,second);
     }
 }
 
-int main()
-{
+int main(){
     char *input = new char[100];
     cin.getline(input, 100);
     char *exit = new char[strlen(input)+10]; int exitid=0;
@@ -99,4 +99,10 @@ int main()
     delete[] input;
     return 0;
 }
+
+
+//Somebody once told me the world is gonna roll me
+//I ain't the sharpest tool in the shed
+//She was looking kind of dumb with her finger and her thumb
+//In the shape of an "L" on her forehead
 
