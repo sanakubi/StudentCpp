@@ -30,6 +30,16 @@ int priority(char sym){
     return 0;
 }
 
+int ultrapain(int first,int second, char operation)
+{
+    switch(operation){
+    case'+': return first+second;
+    case'-': return first-second;
+    case'*': return first*second;
+    case'/': return first/second;
+    //case'^':
+    }
+}
 
 int main()
 {
@@ -38,7 +48,6 @@ int main()
     char *exit = new char[strlen(input)+10]; int exitid=0;
     char *operstack = new char[strlen(input)+10]; int ostid=0;
     int *calculation = new int[10]; int calc=0;
-    //input[strlen(input)]='!';
 
     for(int i=0;i<strlen(input);){
             if(!symbol_check(input[i])){
@@ -63,37 +72,28 @@ int main()
                     }
              i++;
             }
-
     }
     ostid--;
-    int m= exitid+ostid;
-
-    while(exitid<m||ostid>=0){
+    int m=exitid+ostid;
+    while(exitid<m||ostid>=0){             //я хз как это работает, но оно работает, причем правильно!!!!
         exit[exitid]=operstack[ostid];
-        cout<<exit[exitid];
         exitid++;ostid--;
     }
     cout<<endl;
 
-/  for(int i=0;i<=exitid;i++){
+    for(int i=0;i<=m;i++){
         if(!symbol_check(exit[i])){
             calculation[calc]=(int)exit[i]-48;
             calc++;
         }else if(symbol_check(exit[i])){
-            switch(exit[i]){
-                case'+':{calculation[calc-1]=calculation[calc-1]+calculation[calc];}
-                case'-':{calculation[calc-1]=calculation[calc-1]-calculation[calc];}
-                case'*':{calculation[calc-1]=calculation[calc]*calculation[calc-1];}
-                case'/':{calculation[calc-1]=calculation[calc]/calculation[calc-1];}
-                //case'^':{}
-            }
+            calculation[calc-2]=ultrapain(calculation[calc-2],calculation[calc-1],exit[i]);
+            cout<<calculation[calc-2]<<" - "<<i<<endl;
+            calc--;
         }
-
     }
-*/
-    //cout<<input<< " | " << exit<< " | " << operstack <<endl;
-      cout<<exit<<" "<<exitid<<" "<<exit[exitid]<< " | " << operstack<<" "<<ostid<<" "<<operstack[ostid] <<endl;
 
+    cout<<exit<<" "<<exitid<<" "<<exit[exitid]<< " | " << operstack<<" "<<ostid<<" "<<operstack[ostid] <<endl;
+    cout<<calculation[0];
 
     delete[] operstack;
     delete[] exit;
