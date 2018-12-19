@@ -59,16 +59,16 @@ int main()
                                 exit[exitid]=operstack[ostid-1];
                                 operstack[ostid-1]=input[i];
                                 exitid++;
-                                cout<< "first"<<input[i]<<endl;
+                                //cout<< "first"<<input[i]<<endl;
                             }else if(priority(input[i])>priority(operstack[ostid-1])){
                                 operstack[ostid]=input[i];
                                 ostid++;
-                                cout<<"second"<<input[i]<<endl;
+                                //cout<<"second"<<input[i]<<endl;
                             }
                     }else if(ostid==0){
                             operstack[ostid]=input[i];
                             ostid++;
-                            cout<<"third"<< input[i]<<endl;
+                            //cout<<"third"<< input[i]<<endl;
                     }
              i++;
             }
@@ -87,16 +87,16 @@ int main()
             calc++;
         }else if(symbol_check(exit[i])){
             calculation[calc-2]=ultrapain(calculation[calc-2],calculation[calc-1],exit[i]);
-            cout<<calculation[calc-2]<<" - "<<i<<endl;
             calc--;
         }
     }
 
-    cout<<exit<<" "<<exitid<<" "<<exit[exitid]<< " | " << operstack<<" "<<ostid<<" "<<operstack[ostid] <<endl;
-    cout<<calculation[0];
+    cout<<exit<<" "<<exitid<<" | " /*<< operstack<<" "<<ostid<<" "<<operstack[ostid] */<<endl;
+    cout<<"aNsWeR iS - "<<calculation[0];
 
     delete[] operstack;
     delete[] exit;
     delete[] input;
     return 0;
 }
+
