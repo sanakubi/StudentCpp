@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
+#include <windows.h>
 
 using namespace std;
 
@@ -42,6 +43,20 @@ int ultrapain(int first,int second, char operation){   //выполнение м
     }
 }
 
+/*void error(char getallerrors, int line){
+    int a=0; int b=0;
+    for(int i=0;i<line;i++){
+        if(getallerrors[i]=='('){
+            a++;
+           } else if(getallerrors[i]==')'){
+                b++
+           }
+    }
+    if(a>b||a<b||a!=b){
+        cout<<"Error. Wrong bracket alignment"<<endl;
+    }
+}*/
+
 int main(){
     char *input = new char[100];
     cin.getline(input, 100);
@@ -49,8 +64,27 @@ int main(){
     char *operstack = new char[strlen(input)+10]; int ostid = 0;
     int *calculation = new int[10]; int calc = 0;
     bool bin=false;
+    char *per = new char[100];
+    char *value = new char[100];
+    int percount=0;
 
-    for(int i = 0; i < strlen(input);){                  //создание  двух массивов-стеков
+    cout<<"How many variables does the expression contain?"<<endl;
+    cin>>percount;
+    for(int i = 0; i < percount;i++){
+        cout<<i+1<<" variable name: ";
+        cin>>per[i];
+        cout<<i+1<<" variable value: ";
+        cin>>value[i];
+    }
+    for(int j = 0; j < percount; j++){
+        for(int i = 0; i < strlen(input);i++){
+            if(input[i]==per[j]){
+                input[i]=value[j];
+            }for(int i = 0; i < percount;i++)
+        }
+    }
+
+    for(int i = 0; i < strlen(input);){                  //создание и заполнени двух массивов-стеков
             if(!symbol_check(input[i])&&exit[i]!=')'){
                     exit[exitid] = input[i];
                     i++; exitid++;
@@ -102,15 +136,25 @@ int main(){
     }
 
     cout<<exit/*<<" "<<exitid<<" | " << operstack<<" "<<ostid<<" "<<operstack[ostid] */ <<endl;
-    cout<<"Answer - "<<calculation[0];
+    cout<<"Answer - "<<calculation[0]<<endl;
 
     delete[] operstack;
     delete[] exit;
     delete[] input;
+
+    cout<<"Exit y/n"<<endl;
+    char symbo; cin>>symbo;
+    switch(symbo){
+        case 'n':
+            cout<<"Your program!";
+                break;
+        case 'y':
+            exitlogo();
+                break;
+    }
+
     return 0;
 }
-
-
 //Somebody once told me the world is gonna roll me
 //I ain't the sharpest tool in the shed
 //She was looking kind of dumb with her finger and her thumb
