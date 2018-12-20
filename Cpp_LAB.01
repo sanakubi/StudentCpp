@@ -4,21 +4,21 @@
 
 using namespace std;
 
-bool symbol_check(char sym){
+bool symbol_check(char sym){   //проверка на допустимые символ
     switch(sym)
-    { case '*': return 3;
+    {
+        case '*': return true;
         case '+': return true;
         case '-': return true;
         case '(': return true;
         case ')': return true;
         case '^': return true;
         case '/': return true;
-        case '*': return true;
     }
     return false;
 }
 
-int priority(char sym){
+int priority(char sym){   //определение приоритета
     switch(sym)
     {
         case '(': return 1;
@@ -31,7 +31,7 @@ int priority(char sym){
     return 0;
 }
 
-int ultrapain(int first,int second, char operation){
+int ultrapain(int first,int second, char operation){   //выполнение математических операций што
     switch(operation)
     {
         case'+': return first+second;
@@ -45,54 +45,64 @@ int ultrapain(int first,int second, char operation){
 int main(){
     char *input = new char[100];
     cin.getline(input, 100);
-    char *exit = new char[strlen(input)+10]; int exitid=0;
-    char *operstack = new char[strlen(input)+10]; int ostid=0;
-    int *calculation = new int[10]; int calc=0;
+    char *exit = new char[strlen(input)+10]; int exitid = 0;
+    char *operstack = new char[strlen(input)+10]; int ostid = 0;
+    int *calculation = new int[10]; int calc = 0;
+    bool bin=false;
 
-    for(int i=0;i<strlen(input);){
-            if(!symbol_check(input[i])){
-                    exit[exitid]=input[i];
+    for(int i = 0; i < strlen(input);){                  //создание  двух массивов-стеков
+            if(!symbol_check(input[i])&&exit[i]!=')'){
+                    exit[exitid] = input[i];
                     i++; exitid++;
             } else if(symbol_check(input[i])){
-                    if(ostid>0){
-                            if(priority(input[i])<=priority(operstack[ostid-1])){
-                                exit[exitid]=operstack[ostid-1];
-                                operstack[ostid-1]=input[i];
+                    if(ostid > 0){
+                            if(priority(input[i]) <= priority(operstack[ostid-1]) && input[i]!=')' && input[i]!='('){
+                                exit[exitid] = operstack[ostid-1];
+                                operstack[ostid-1] = input[i];
                                 exitid++;
-                                //cout<< "first"<<input[i]<<endl;
-                            }else if(priority(input[i])>priority(operstack[ostid-1])){
-                                operstack[ostid]=input[i];
+                                cout<< "first"<<input[i]<<endl;
+                            }else if(priority(input[i]) > priority(operstack[ostid-1]) && input[i]!=')' && input[i]!='('){
+                                operstack[ostid] = input[i];
                                 ostid++;
-                                //cout<<"second"<<input[i]<<endl;
+                                cout<<"second"<<input[i]<<endl;
+                            }else if(input[i]=='('&& input[i]!=')'){
+                                operstack[ostid] = input[i];
+                                ostid++;
+                            }else if(input[i]==')'){
+                                ostid--;
+                                while(operstack[ostid]!='('){
+                                    exit[exitid]=operstack[ostid];
+                                    ostid--;exitid++;
+                                }
+                                cout<<"wtf"<<endl;
                             }
-                    }else if(ostid==0){
-                            operstack[ostid]=input[i];
+                    }else if(ostid == 0){
+                            operstack[ostid] = input[i];
                             ostid++;
-                            //cout<<"third"<< input[i]<<endl;
+                            cout<<"third"<< input[i]<<endl;
                     }
              i++;
             }
     }
     ostid--;
-    int m=exitid+ostid;
-    while(exitid<m||ostid>=0){             //я хз как это работает, но оно работает, причем правильно!!!!
-        exit[exitid]=operstack[ostid];
-        exitid++;ostid--;
+    int m = exitid+ostid;                       //объеление двух массиво-стеков
+    while(exitid<m || ostid >= 0){             //я хз как это работает, но оно работает, причем правильно!!!!
+        exit[exitid] = operstack[ostid];
+        exitid++; ostid--;
     }
     cout<<endl;
-
-    for(int i=0;i<=m;i++){
+    for(int i = 0; i <= m; i++){                     //расчет всего!
         if(!symbol_check(exit[i])){
-            calculation[calc]=(int)exit[i]-48;
+            calculation[calc] = (int)exit[i]-48;
             calc++;
         }else if(symbol_check(exit[i])){
-            calculation[calc-2]=ultrapain(calculation[calc-2],calculation[calc-1],exit[i]);
+            calculation[calc-2] = ultrapain(calculation[calc-2], calculation[calc-1], exit[i]);
             calc--;
         }
     }
 
-    cout<<exit<<" "<<exitid<<" | " /*<< operstack<<" "<<ostid<<" "<<operstack[ostid] */<<endl;
-    cout<<"aNsWeR iS - "<<calculation[0];
+    cout<<exit/*<<" "<<exitid<<" | " << operstack<<" "<<ostid<<" "<<operstack[ostid] */ <<endl;
+    cout<<"Answer - "<<calculation[0];
 
     delete[] operstack;
     delete[] exit;
@@ -105,4 +115,3 @@ int main(){
 //I ain't the sharpest tool in the shed
 //She was looking kind of dumb with her finger and her thumb
 //In the shape of an "L" on her forehead
-
