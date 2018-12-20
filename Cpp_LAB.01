@@ -149,7 +149,7 @@ int main(){
             cout<<"Your program!";
                 break;
         case 'y':
-            exitlogo();
+            cout<<"End program!";
                 break;
     }
 
