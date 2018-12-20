@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include <cmath>
-#include <windows.h>
 
 using namespace std;
 
@@ -26,7 +25,9 @@ int priority(char sym){   //определение приоритета
         case '+': return 2;
         case '-': return 2;
         case '^': return 4;
+        case '#': return 4;
         case '/': return 3;
+        case '%': return 3;
         case '*': return 3;
     }
     return 0;
@@ -39,7 +40,9 @@ int ultrapain(int first,int second, char operation){   //выполнение м
         case'-': return first-second;
         case'*': return first*second;
         case'/': return first/second;
+        case'%': return first%second;
         case'^': return pow(first,second);
+        case'#': return pow(first,1/second);
     }
 }
 
@@ -154,18 +157,17 @@ int main(){
     delete[] operstack;
     delete[] exit;
     delete[] input;
-
+    cin.ignore();
     cout<<"Exit y/n"<<endl;
     char symbo; cin>>symbo;
     switch(symbo){
         case 'n':
-            cout<<"Your program!";
+                main();
                 break;
         case 'y':
             cout<<"End program!";
                 break;
     }
-
     return 0;
 }
 //Somebody once told me the world is gonna roll me
