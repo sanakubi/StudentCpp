@@ -66,7 +66,8 @@ int main(){
     bool bin=false;
     char *per = new char[100];
     char *value = new char[100];
-    int percount=0;
+    char *quantity = new char[100];
+    int percount=0; bool check=false;
 
     cout<<"How many variables does the expression contain?"<<endl;
     cin>>percount;
@@ -75,12 +76,24 @@ int main(){
         cin>>per[i];
         cout<<i+1<<" variable value: ";
         cin>>value[i];
+
     }
     for(int j = 0; j < percount; j++){
         for(int i = 0; i < strlen(input);i++){
             if(input[i]==per[j]){
                 input[i]=value[j];
-            }for(int i = 0; i < percount;i++)
+                quantity[j]++;
+            }
+        }
+    }
+    for(int i = 0; i < strlen(input);i++){
+        for(int j = 0; j < percount; j++){
+                if(!symbol_check(input[i]) && input[i]>=97 && input[i]<=122 && input[i]==value[j]){
+                    check=true;
+                }
+        }
+        if(check==false && !symbol_check(input[i]) && input[i]>=97 && input[i]<=122){
+            cout<<"Error. Unknown variable "<< input[i]<<endl;
         }
     }
 
