@@ -1,18 +1,21 @@
 	#include <iostream>
 	#include <fstream>
 	#include <string.h>
-
-	#define esc 27
-	#define cls printf("%c[2J",esc)	 //ШОБ ЭКРАН ОБНОВЛЯЛСЯ, А НЕ ТУДА-СЮДА ДЕЛАЛ ГЫ
+	#define cls printf("%c[2J",27)	
 
 	using namespace std;
 	// ОБЪЕКТ ПОЕЗД
 	class Train_{
 	public:
-		string City = "";
-		string Time = "";
+		string City;
+		string Time;
 
-		//Train_(string City, string Time)  : City(City), Time(Time) {}
+		Train_() {
+			City = "";
+			Time = "";
+		}
+
+		Train_(string City, string Time)  : City(City), Time(Time) {}
 
 		friend ostream& operator<<(ostream& out, Train_& X){
 			out<<X.City<<" "<<X.Time;
@@ -26,7 +29,7 @@
 			return(A.Time == B.Time && A.City == B.City);
 		} 
 	}; 
-	// КОЛЛЕКЦИЯ ПОД ПОЕЗД (В ДАННОМ СЛУЧАЕ ПЕРЕМЕННАЯ TRAIN - САМО ЗНАЧЕНИЕ)
+
 	template<typename Tkey, typename Ttrain>
 	class Map {
 	private:
@@ -55,6 +58,7 @@
 		~Map() {
 			delete[] con_array;
 		}
+
 		void add(Tkey key, Ttrain train) {	
 			bool check = true;              
 			for (int i = 0; i < insize; i++) {
@@ -103,8 +107,8 @@
 
 		friend istream& operator<<(istream& in, Map& X) {
 			Tkey key; Ttrain train;
-			in >> key;
-			in >> train;
+			in>>key;
+			in>>train;
 			X.insert(key, train);
 			return in;
 		}
@@ -150,7 +154,9 @@
 		Map<int, Train_> Board;
 		Board.getlist();
 		Board.print();
-
+		cout << endl;
+		Board.add(8,Train_("df", "er"));
+		Board.print();
 		//// MENU ////
 		setlocale(LC_ALL, "Russian");
 
