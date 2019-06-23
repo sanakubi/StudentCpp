@@ -5,8 +5,6 @@
 #define esc 27
 #define cls printf("%c[2J",esc)	 //ШОБ ЭКРАН ОБНОВЛЯЛСЯ, А НЕ ТУДА-СЮДА ДЕЛАЛ ГЫ
 
-
-
 using namespace std;
 // ОБЪЕКТ ПОЕЗД
 class Train{
@@ -71,6 +69,8 @@ public:
 			ct.key = key;
 			ct.train = train;
 			con_array[insize++] = ct;
+		}else if (check == false) {
+			cout << ">ERROR_ADD: KEY " << key << " ALREADY ADDED" << endl;
 		}
 	}
 	void del(Tkey key) {
@@ -90,10 +90,10 @@ public:
 				if (temp_con[i].key != key) {
 					add(temp_con[i].key, temp_con[i].train);
 				}
+		}else if (check == false) {
+			cout << ">ERROR_DEL: KEY " << key << " DOESN'T EXIST" << endl;
 		}
-		else if (check == false) {
-			cout << " ERROR_ADD. KEY " << key << " ALREADY ADDED" << endl;
-		}
+
 	}		
 	void print() {
 		for (int i = 0; i < insize; i++) {
@@ -133,8 +133,8 @@ public:
 			Tkey key;
 			Ttrain train;
 			while (!lst.eof()) {
-				lst >> key;
-				lst >> train;
+				lst>>key;
+				lst>>train;
 				add(key, train);
 			}
 		}
@@ -151,7 +151,6 @@ int main() {
 	Board.del(3);
 
 	Board.print();
-	cls;
 
 	//// MENU ////
 	setlocale(LC_ALL, "Russian");
