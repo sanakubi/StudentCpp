@@ -67,28 +67,6 @@ public:
 			con_array[insize++] = ct;
 		}
 	}
-	void del(Tkey key) {
-		bool check = false;
-		for (int i = 0; i < insize; i++) {
-			if (con_array[i].key == key) check = true;
-		}
-		if (check == true) {
-			conformity* temp_con = new conformity[size];
-			memcpy(temp_con, con_array, sizeof(conformity) * size);
-			delete[] con_array;
-			size = 10;
-			int ins = insize;
-			insize = 0;
-			con_array = new conformity[size];
-			for (int i = 0; i < ins; i++)
-				if (temp_con[i].key != key) {
-					add(temp_con[i].key, temp_con[i].train);
-				}
-		}
-		else if (check == false) {
-			cout << ">ERROR_DEL: KEY " << key << " DOESN'T EXIST" << endl;
-		}
-	}
 
 	friend ostream& operator<<(ostream& out, Map& X) {
 		for (int i = 0; i < X.insze; i++) out << X.con_array[i].key << " " << X.con_array[i].train << endl;
