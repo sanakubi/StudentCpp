@@ -4,7 +4,6 @@
 	#define cls printf("%c[2J",27)	
 
 	using namespace std;
-	// ОБЪЕКТ ПОЕЗД
 	class Train_{
 	public:
 		string City;
