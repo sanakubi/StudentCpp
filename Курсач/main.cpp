@@ -103,9 +103,15 @@ public:
 		return in;
 	}
 
-	void search(Ttrain check){
+	void searchC(Ttrain check){
 		for (int i = 0; i < insize; i++) {
 			if (con_array[i].train == check) cout << con_array[i].key << " " << con_array[i].train<<endl;
+		}
+	}
+
+	void searchK(Tkey key) {
+		for (int i = 0; i < insize; i++) {
+			if (con_array[i].key == key) cout << con_array[i].key << " " << con_array[i].train << endl;
 		}
 	}
 
@@ -156,30 +162,33 @@ int main() {
 	string City, Time;
 	int next = true;
 	do {
-		cout << "/////MENU///// \n 1) Add train \n 2) Delete train \n 3) Find train by City \n 4) Show all trains \n 5) Exit " << endl;
+		cout << "/////MENU///// \n 1) Add train \n 2) Find train by number \n 3) Find train by City \n 4) Show all trains \n 5) Exit " << endl;
 		int var;
 		cin >> var;
 		switch (var) {
 		case 1: {
-			cout << "Add key \n Input Num, City, Time: ";
+			cout << "Add train \n Input Num, City, Time (hours : minutes): ";
 			cin >> Key;
 			cin >> City;
 			cin >> Time;
+			cout << endl;
 			Board.add(Key, Train_(City, Time));
 			cout << "! \n \n";
 			break;
 			}
 		case 2: {
-			cout << "Delete train \n Input Num: ";
+			cout << "Find train by number \n Enter Num: ";
 			cin >> Key;
-			Board.del(Key);
+			cout << endl;
+			Board.searchK(Key);
 			cout << "! \n \n";
 			break;
 			}
 		case 3: {
-			cout << "Find by City \n Enter City: ";
+			cout << "Find train by City \n Enter City: ";
 			cin >> City;
-			Board.search(Train_(City, " "));
+			cout << endl;
+			Board.searchC(Train_(City, " "));
 			cout << "! \n \n";
 			break;
 			}
