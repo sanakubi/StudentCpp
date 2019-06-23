@@ -1,4 +1,4 @@
-	#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <string.h>
 
@@ -50,9 +50,9 @@ public:
 
 	void add(Tkey key, Ttrain train) {
 		bool check = true;
-		for (int i = 0; i < insize; i++) {
+		/* for (int i = 0; i < insize; i++) {
 			if (con_array[i].key == key) check = false;
-		}
+		} */
 		if (check == true) {
 			if (insize == size) {
 				conformity* old = con_array;
@@ -102,11 +102,7 @@ public:
 		X.insert(key, train);
 		return in;
 	}
-	friend bool operator==(Map& A, Map& B) {
 
-		return(A.City == B.City);
-	}
-	
 	void search(Ttrain check){
 		for (int i = 0; i < insize; i++) {
 			if (con_array[i].train == check) cout << con_array[i].key << " " << con_array[i].train<<endl;
@@ -155,8 +151,6 @@ public:
 int main() {
 	Map<int, Train_> Board;
 	Board.getlist();
-	Board.print();
-	Board.savelist();
 	//// MENU ////
 	int Key;
 	string City, Time;
@@ -172,35 +166,36 @@ int main() {
 			cin >> City;
 			cin >> Time;
 			Board.add(Key, Train_(City, Time));
-			cout << "! \n";
+			cout << "! \n \n";
 			break;
 			}
 		case 2: {
 			cout << "Delete train \n Input Num: ";
 			cin >> Key;
 			Board.del(Key);
-			cout << "! \n";
+			cout << "! \n \n";
 			break;
 			}
 		case 3: {
-			cout << "Find by City n/ Enter City: ";
+			cout << "Find by City \n Enter City: ";
 			cin >> City;
 			Board.search(Train_(City, " "));
+			cout << "! \n \n";
 			break;
 			}
 		case 4: {
-			cout << "Board \n";
+			cout << "Board \n \n";
 			Board.print();
+			cout << "! \n \n";
 			break;
 			}
 		case 5: {
 			cout << "Exit! Bye!";
 			next = false;
-			cout << "!" << endl;
+			cout << "! \n \n";
 			break;
 			}
 		}
 	}while (next);
 	Board.savelist();
 }
-
