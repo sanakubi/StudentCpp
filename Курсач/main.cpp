@@ -77,7 +77,7 @@ public:
 		Tkey key; Ttrain train;
 		in >> key;
 		in >> train;
-		X.insert(key, train);
+		X.add(key, train);
 		return in;
 	}
 
