@@ -14,23 +14,23 @@ bool sccheck(NUM num) {
 }
 
 bool symcheck(char  a) {
-	if ((a == '+' || a == '/' || a == '*' || a == '-' || a == '%') && (a >= 33 && a <= 47)) return true;
+	if ((a == '+' || a == '/' || a == '*' || a == '-' || a == '^') && ((a >= 33 && a <= 47)||a==94)) return true;
 	return false;
 }
 
 int priority(char sym) {
 	switch (sym) {
 	//case '(': return 1;
-	case '+': case '-': return 2;
-	case '/': case '%': case '*': return 3;
-	case '^': case '#': return 4;
+	case '+': case '-': return 1;
+	case '/': case '%': case '*': return 2;
+	case '^': case '#': return 3;
 	}
 	return 0;
 }
 
 int math(int num1, int num2, char action) {
 	switch (action) {
-	//case '^': return pow(num1, num2);
+	case '^': return pow(num1, num2);
 	case '+': return num1 + num2;
 	case '-': return num1 - num2;
 	case '*': return num1 * num2;
@@ -39,21 +39,21 @@ int math(int num1, int num2, char action) {
 }
 
 int main() {
-	string strout = "512+6321";
+	string strout = "(3*5)^0";
 	string numz;
 	vector<char> temp; temp.push_back('~');
 	vector<char> tur;
 	vector<int> num;
 	vector<int> num_stack;
 
-	//cout <<"atoi- "<<atoi(strout.data()+1)<<endl;
-
 	for (int i = 0; i < strout.length(); i++) {
 		if (numcheck(strout[i])) {
 			if (numcheck(strout[i]) && (i>=1 && numcheck(strout[i - 1]))) {
 				while (numcheck(i)) i++;
-			} else tur.push_back(num.size() + 97);
-			num.push_back(atoi(strout.data() + i));
+			} else {
+				tur.push_back(num.size() + 97);
+				num.push_back(atoi(strout.data() + i));
+			}
 		}
 		else if (!numcheck(strout[i]) || symcheck(strout[i])) {
 			if (sccheck(strout[i])) {
@@ -100,5 +100,6 @@ int main() {
 		}
 	}
 	cout<< num_stack.back()<<endl;
+		
 	return 0;
 }
