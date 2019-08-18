@@ -39,18 +39,18 @@ int math(int num1, int num2, char action) {
 }
 
 int main() {
-	string strout = "(60+40)+(40/2)*5";
+	string strout = "512+6321";
 	string numz;
 	vector<char> temp; temp.push_back('~');
 	vector<char> tur;
 	vector<int> num;
 	vector<int> num_stack;
 
-	cout <<"atoi- "<<atoi(strout.data()+1)<<endl;
+	//cout <<"atoi- "<<atoi(strout.data()+1)<<endl;
 
 	for (int i = 0; i < strout.length(); i++) {
 		if (numcheck(strout[i])) {
-			if (numcheck(strout[i]) && numcheck(strout[i - 1])) {
+			if (numcheck(strout[i]) && (i>=1 && numcheck(strout[i - 1]))) {
 				while (numcheck(i)) i++;
 			} else tur.push_back(num.size() + 97);
 			num.push_back(atoi(strout.data() + i));
