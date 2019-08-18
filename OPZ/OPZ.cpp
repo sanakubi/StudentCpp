@@ -18,7 +18,6 @@ bool symcheck(char  a) {
 	return false;
 }
 
-
 int priority(char sym) {
 	switch (sym) {
 	//case '(': return 1;
@@ -40,18 +39,20 @@ int math(int num1, int num2, char action) {
 }
 
 int main() {
-	string strout = "(2+3)+(4/2)*3";
+	string strout = "(60+40)+(40/2)*5";
+	string numz;
 	vector<char> temp; temp.push_back('~');
 	vector<char> tur;
 	vector<int> num;
 	vector<int> num_stack;
 
-	cout << atoi(strout.data()+1)<<endl;
+	cout <<"atoi- "<<atoi(strout.data()+1)<<endl;
 
 	for (int i = 0; i < strout.length(); i++) {
 		if (numcheck(strout[i])) {
-			//rev.push_back(strout[i]);
-			tur.push_back(num.size() + 97);
+			if (numcheck(strout[i]) && numcheck(strout[i - 1])) {
+				while (numcheck(i)) i++;
+			} else tur.push_back(num.size() + 97);
 			num.push_back(atoi(strout.data() + i));
 		}
 		else if (!numcheck(strout[i]) || symcheck(strout[i])) {
@@ -82,7 +83,7 @@ int main() {
 		temp.pop_back();
 	}
 	cout << num[tur[0]- 97]<<" "<< tur[0]<< endl;
-
+	
 	int valuef, values;
 	for (int i = 0; i < tur.size(); i++){
 		if (!symcheck(tur[i])) {
