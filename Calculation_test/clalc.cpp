@@ -23,13 +23,21 @@ clalc::~clalc()
     delete ui;
 }
 
-template<typename NUM>
-bool numcheck(NUM num){
+static string strout;
+
+QString showstrout(){
+    QString str = " ";
+    for(int i=0; i<strout.length(); i++) str[i]=strout[i];
+    //for(int i=0; i<strout.length(); i++){}
+    return str;
+}
+
+////////// проверки ///////////
+bool numcheck(char num){
     return ((num >= 48 && num <= 57)||num == '.');
 }
 
-template<typename NUM>
-bool sccheck(NUM num) {
+bool sccheck(char num) {
     return (num!='(' && num!=')');
 }
 
@@ -37,7 +45,6 @@ bool symcheck(char  a) {
     if ((a == '+' || a == '/' || a == '*' || a == '-' || a == '^') && ((a >= 33 && a <= 47)||a==94)) return true;
     return false;
 }
-static string strout;
 
 bool sexyc(string strout) {
     int test = 0;
@@ -48,19 +55,13 @@ bool sexyc(string strout) {
     if (test == 0) return true;
 }
 
-bool sexys(string strout) {
-    for (int i = 0; i < strout.length(); i++) if((symcheck(strout[i]) && symcheck(strout[i + 1])) || sccheck(strout[i]) && sccheck(strout[i + 1])) return true;
+bool sexysystem(string strout) {
+    for (int i = 0; i < strout.length(); i++) if((symcheck(strout[i]) && symcheck(strout[i + 1])) || (sccheck(strout[i]) && sccheck(strout[i + 1])) || symcheck(strout.back())) return true;
 }
+/////////////////////////////////
 
 void add_obj(char obj){
     strout += obj;
-}
-
-QString showstrout(){
-    QString str = " ";
-    for(int i=0; i<strout.length(); i++) str[i]=strout[i];
-    //for(int i=0; i<strout.length(); i++){}
-    return str;
 }
 
 int priority(char sym){
@@ -90,18 +91,19 @@ void del(){
 }
 
 void go(){
-    vector<char> temp; temp.push_back('~');
+    vector<char> temp;
+    temp.push_back('~');
     vector<char> tur;
     vector<double> num;
     vector<double> num_stack;
-
+    if (sexysystem(strout) && sexyc(strout) && !symcheck(strout.back())){
     for (int i = 0; i < strout.length(); i++) {
-            if (numcheck(strout[i])) {
+            if (numcheck(strout[i]) || (i==0 || (symcheck(strout[i-1]) && strout[i-1] != '-' ) && strout[i] == '-')){
                 if (numcheck(strout[i]) && (i>=1 && numcheck(strout[i - 1]))) {
                     while (numcheck(i)) i++;
                 } else {
                     tur.push_back(num.size() + 97);
-                    num.push_back(atof(strout.data() + i));
+                    num.push_back(atof(strout.data() + i++));
                 }
             }
             else if (!numcheck(strout[i]) || symcheck(strout[i])) {
@@ -153,6 +155,7 @@ void go(){
         istr--;
     }
     if(strout.back() == '.') strout.pop_back();
+    }
     showstrout();
 }
 
@@ -198,11 +201,14 @@ void clalc::on_numbutt_0_clicked(){
     ui->Output->setText(showstrout());
 }
 void clalc::on_numbutt_00_clicked(){
-    add_obj('000');
+    add_obj('0');add_obj('0');add_obj('0'); //да тупо да я
     ui->Output->setText(showstrout());
 }
 void clalc::on_numbutt_000_clicked(){
-    add_obj('.');
+    if(strout.length()==0 || numcheck(strout.back()) || sccheck(strout.back())){
+        add_obj('0');
+        add_obj('.');
+    }else add_obj('.');
     ui->Output->setText(showstrout());
 }
 void clalc::on_butt_plus_clicked(){
@@ -256,6 +262,10 @@ void clalc::keyPressEvent(QKeyEvent * press){
     case Qt::Key_9: on_numbutt_9_clicked(); break;
     }
 }
+
+
+
+
 
 
 
