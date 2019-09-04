@@ -25,13 +25,6 @@ clalc::~clalc()
 
 static string strout;
 
-QString showstrout(){
-    QString str = " ";
-    for(int i=0; i<strout.length(); i++) str[i]=strout[i];
-    //for(int i=0; i<strout.length(); i++){}
-    return str;
-}
-
 ////////// проверки ///////////
 bool numcheck(char num){
     return ((num >= 48 && num <= 57)||num == '.');
@@ -45,6 +38,7 @@ bool symcheck(char  a) {
     if ((a == '+' || a == '/' || a == '*' || a == '-' || a == '^') && ((a >= 33 && a <= 47)||a==94)) return true;
     return false;
 }
+
 
 bool sexyc(string strout) {
     int test = 0;
@@ -62,6 +56,13 @@ bool sexysystem(string strout) {
 
 void add_obj(char obj){
     strout += obj;
+}
+
+QString showstrout(){
+    QString str = " ";
+    for(int i=0; i<strout.length(); i++) str[i]=strout[i];
+    //for(int i=0; i<strout.length(); i++){}
+    return str;
 }
 
 int priority(char sym){
@@ -90,6 +91,10 @@ void del(){
     if(strout.length()!=0) strout.pop_back();
 }
 
+bool minuscheck(int i){
+    if( (i==0 || strout[i-1] == '+' || strout[i-1] == '/' || strout[i-1] == '*' || strout[i-1] == '^' || strout[i-1] == '(' ) && strout[i]=='-' )return true;
+}
+
 void go(){
     vector<char> temp;
     temp.push_back('~');
@@ -98,12 +103,12 @@ void go(){
     vector<double> num_stack;
     if (sexysystem(strout) && sexyc(strout) && !symcheck(strout.back())){
     for (int i = 0; i < strout.length(); i++) {
-            if (numcheck(strout[i]) || (i==0 || (symcheck(strout[i-1]) && strout[i-1] != '-' ) && strout[i] == '-')){
-                if (numcheck(strout[i]) && (i>=1 && numcheck(strout[i - 1]))) {
+            if (numcheck(strout[i]) || minuscheck(i)) {
+                if ((numcheck(strout[i]) && (i>0 && numcheck(strout[i - 1]))) || minuscheck(i)) {
                     while (numcheck(i)) i++;
                 } else {
                     tur.push_back(num.size() + 97);
-                    num.push_back(atof(strout.data() + i++));
+                    num.push_back(atof(strout.data() + i));
                 }
             }
             else if (!numcheck(strout[i]) || symcheck(strout[i])) {
@@ -239,6 +244,10 @@ void clalc::on_CEL_clicked(){
     del();
     ui->Output->setText(showstrout());
 }
+void clalc::on_Clear_clicked(){
+    strout = " ";
+    ui->Output->setText(showstrout());
+}
 void clalc::on_OpenSk_clicked(){
     add_obj('(');
     ui->Output->setText(showstrout());
@@ -262,11 +271,3 @@ void clalc::keyPressEvent(QKeyEvent * press){
     case Qt::Key_9: on_numbutt_9_clicked(); break;
     }
 }
-
-
-
-
-
-
-
-
