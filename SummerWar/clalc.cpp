@@ -62,13 +62,16 @@ bool sexyc(string strout) {
     if (tmp == 0) return true;
 }
 
+bool sexysc(string strout) {
+    for (int i = 0; i < strout.length(); i++) if((numcheck(strout[i]) && strout[i++]=='(') || (strout[i]==')' && numcheck(strout[i++]))) return false;
+    else return true;
+}
+
 bool sexysystem(string strout) {
     for (int i = 0; i < strout.length(); i++)
         if((symcheck(strout[i]) && (symcheck(strout[i + 1]) && !minuscheck(strout[i + 1])) )
                 || (sccheck(strout[i]) && sccheck(strout[i + 1]))
-                || symcheck(strout.back())
-                || (numcheck(strout[i]) && sccheck(strout[i++]))
-                || (sccheck(strout[i]) && numcheck(strout[i++])) ) return false;
+                || symcheck(strout.back()) ) return false;
 }
 /////
 void add_obj(char obj) {
@@ -94,13 +97,13 @@ QString showstrout() {
             i++;
             if(numcheck(strout[i])){
                 while(numcheck(strout[i])){ str+=strout[i];i++;}
-                str+="</sup>";
+                str+=" </sup>";
                 i--;
             } else if(strout[i]=='('){
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
 
-                str+="</sup>";
+                str+=" </sup>";
             }
         }else if(strout[i]=='#'){
             int tmp=i;
@@ -108,19 +111,19 @@ QString showstrout() {
                 tmp--;
             }
             tmp++;
-            str.insert(tmp, "<sup>");
-            str+="</sup>";
+            str.insert(tmp, "<sup> ");
+            str+=" </sup>";
             if(i+1 < strout.length()){str+="√<span style=\"text-decoration: overline\">";}
             else{str+="√";break;}
             i++;
             if(numcheck(strout[i])){
                 while(numcheck(strout[i])){ str+=strout[i];i++;}
-                str+="</span>";
+                str+=" </span> ";
                 i--;
             }else if(strout[i]=='('){
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
-                str+="</span>";
+                str+=" </span>";
             }
         }else str+=strout[i];
     }
@@ -158,7 +161,7 @@ void go() {
     vector<char> tur;
     vector<double> num;
     vector<double> num_stack;
-    if (!sexysystem(strout) && sexyc(strout)&&!symcheck(strout.back())){
+    if (!sexysystem(strout) && sexyc(strout)&&!symcheck(strout.back())&&sexysc(strout)){
     getstrback();
     for (int i = 0; i < strout.length(); i++) {
             if (numcheck(strout[i]) || minuscheck(i)) {
