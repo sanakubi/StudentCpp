@@ -100,13 +100,20 @@ QString showstrout() {
                 i++;
             }
         } if(strout[i]=='#'){
+            int tmp = i;
+            while(!numcheck(strout[tmp]) && tmp>0){
+                tmp--;
+            }
+            tmp--;
+            str.insert(tmp,"<sup>");
+            str+="</sup>";
             if(i+1 < strout.length()){str+="√<span style=\"text-decoration: overline\">";}
             else{str+="√";break;}
             i++;
             if(numcheck(strout[i])){
                 while(numcheck(strout[i])){ str+=strout[i];i++;}
                 str+="</span>";
-                i--;
+                //i--;
             }else if(strout[i]=='('){
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
