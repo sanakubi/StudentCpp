@@ -376,7 +376,7 @@ void clalc::on_devmode_button_clicked(){
         ui->devmode_button->setText("dev on");dev = 1;
         ui->Output->setText(showstrout());
     }else if(dev == 1){
-        ui->devmode_button->setText("dev of");dev = 0;
+        ui->devmode_button->setText("dev off");dev = 0;
         ui->Output->setText(showstrout());
     }
 }
