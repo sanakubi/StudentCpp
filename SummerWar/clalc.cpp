@@ -133,7 +133,7 @@ QString showstrout() {
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
                 str+=" </span>";
-                i--;
+
             }
         }else str+=strout[i];
     }
