@@ -65,8 +65,6 @@ void add_obj(char obj){
     else strout += obj;
 }
 
-
-
 QString showstrout(){
     QString str = " ";
     for(int i=0; i<strout.length(); i++) str+=strout[i];
@@ -121,6 +119,8 @@ void getstrback(){
 }
 void back(){
     strout=backstr.back();
+    if(backstr.size()!=0)
+    backstr.pop_back();
 }
 
 void go(){
