@@ -76,12 +76,15 @@ void add_obj(char obj) {
     if( (symcheck(obj) && obj!='-'  ) && (strout.back()=='(' || symcheck(strout.back()))
             && ((numcheck(obj) && sccheck(strout.back())) || (numcheck(strout.back()) && sccheck(obj)))) return;
             else if( (obj=='+'||obj=='-') && (strout.back()=='+' || strout.back()=='-')) {
-        strout.pop_back();{
+            strout.pop_back();
             strout+=obj;
             getstrback();
-        }
+
     }else if(obj=='.'){
-        if( strout.length()==0 || symcheck(strout.back()) || strout.back()=='(' ){strout+='0'; strout+=obj;}
+        if( strout.length()==0 || symcheck(strout.back()) || strout.back()=='(' ){
+            strout+='0';
+            strout+=obj;
+        }
         else if(strout.back() == '.') return;
         else{
             getstrback();
@@ -113,17 +116,16 @@ QString showstrout() {
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
 
-                str+=" </sup> ";
+                str+="</sup>";
             }
         }else if(strout[i]=='#'){
-             /*int tmp=i;
+             int tmp=i-1;
              while(str[tmp] >= '0' && str[tmp] <= '9'){
                  tmp--;
              }
-             tmp++;
-             str.insert(tmp, "<sup> ");
-             str+=" </sup>"; */
-            if(i+1 < strout.length()){str+="√<span style=\"text-decoration: overline\">";}
+             str.insert(tmp, "<sup>");
+             str+="</sup>";
+            if(i+1 < strout.length()){str+="√<span style=\"text-decoration: overline\"> ";}
             else{str+="√";break;}
             i++;
             if(numcheck(strout[i])){
