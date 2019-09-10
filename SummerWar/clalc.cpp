@@ -103,16 +103,16 @@ QString showstrout() {
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
 
-                str+=" </sup>";
+                str+=" </sup> ";
             }
         }else if(strout[i]=='#'){
-            int tmp=i;
-            while(str[tmp] >= '0' && str[tmp] <= '9'){
-                tmp--;
-            }
-            tmp++;
-            str.insert(tmp, "<sup> ");
-            str+=" </sup>";
+             /*int tmp=i;
+             while(str[tmp] >= '0' && str[tmp] <= '9'){
+                 tmp--;
+             }
+             tmp++;
+             str.insert(tmp, "<sup> ");
+             str+=" </sup>"; */
             if(i+1 < strout.length()){str+="√<span style=\"text-decoration: overline\">";}
             else{str+="√";break;}
             i++;
