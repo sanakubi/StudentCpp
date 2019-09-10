@@ -75,13 +75,19 @@ bool sexysystem(string strout) {
 }
 /////
 void add_obj(char obj) {
-    if( (symcheck(obj) && obj!='-') && (strout.back()=='(' || symcheck(strout.back()) /* && strout.back()!='-' && strout.back()!='+'*/ ) ) return;
-    else if( (obj=='+'||obj=='-') && (strout.back()=='+' || strout.back()=='-') ) {
-        strout.pop_back();{getstrback(); strout+=obj;}
+    if( (symcheck(obj) && obj!='-'  ) && (strout.back()=='(' || symcheck(strout.back())) && ((numcheck(obj) && sccheck(strout.back())) || (numcheck(strout.back()) && sccheck(obj)))) return;
+            else if( (obj=='+'||obj=='-') && (strout.back()=='+' || strout.back()=='-')) {
+        strout.pop_back();{
+            strout+=obj;
+            getstrback();
+        }
     }else if(obj=='.'){
         if( strout.length()==0 || symcheck(strout.back()) || strout.back()=='(' ){strout+='0'; strout+=obj;}
         else if(strout.back() == '.') return;
-        else{ getstrback();strout += obj;}
+        else{
+            getstrback();
+            strout += obj;
+        }
     }else if(symcheck(obj) && obj!='-' && strout.length()==0) return;
     else { getstrback(); strout += obj;}
 }
@@ -124,6 +130,7 @@ QString showstrout() {
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
                 str+=" </span>";
+                i--;
             }
         }else str+=strout[i];
     }
