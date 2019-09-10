@@ -64,7 +64,11 @@ bool sexyc(string strout) {
 
 bool sexysystem(string strout) {
     for (int i = 0; i < strout.length(); i++)
-        if((symcheck(strout[i]) && (symcheck(strout[i + 1]) && !minuscheck(strout[i + 1])) ) || (sccheck(strout[i]) && sccheck(strout[i + 1])) || symcheck(strout.back())) return false;
+        if((symcheck(strout[i]) && (symcheck(strout[i + 1]) && !minuscheck(strout[i + 1])) )
+                || (sccheck(strout[i]) && sccheck(strout[i + 1]))
+                || symcheck(strout.back())
+                || (numcheck(strout[i]) && sccheck(strout[i++]))
+                || (sccheck(strout[i]) && numcheck(strout[i++])) ) return false;
 }
 /////
 void add_obj(char obj) {
@@ -84,28 +88,27 @@ QString showstrout() {
     if(dev)for(int i=0; i<strout.length(); i++) str+=strout[i];
     else
     for(int i=0; i<strout.length(); i++) {
-        if( (i==0||i>0 && numcheck(strout[i-1])) && strout[i] == '2' && strout[i + 1] == '#' ) continue;
-        else if(strout[i]=='^'){
+         if(strout[i]=='^'){
             if(i+1 < strout.length()){str+="<sup>";}
             else{str+="^";break;}
             i++;
             if(numcheck(strout[i])){
                 while(numcheck(strout[i])){ str+=strout[i];i++;}
                 str+="</sup>";
-
+                i--;
             } else if(strout[i]=='('){
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
+
                 str+="</sup>";
-                i++;
             }
-        } if(strout[i]=='#'){
-            int tmp = i;
-            while(!numcheck(strout[tmp]) && tmp>0){
+        }else if(strout[i]=='#'){
+            int tmp=i;
+            while(str[tmp] >= '0' && str[tmp] <= '9'){
                 tmp--;
             }
-            tmp--;
-            str.insert(tmp,"<sup>");
+            tmp++;
+            str.insert(tmp, "<sup>");
             str+="</sup>";
             if(i+1 < strout.length()){str+="√<span style=\"text-decoration: overline\">";}
             else{str+="√";break;}
@@ -113,7 +116,7 @@ QString showstrout() {
             if(numcheck(strout[i])){
                 while(numcheck(strout[i])){ str+=strout[i];i++;}
                 str+="</span>";
-                //i--;
+                i--;
             }else if(strout[i]=='('){
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
