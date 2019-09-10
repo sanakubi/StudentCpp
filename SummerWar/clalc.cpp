@@ -92,6 +92,7 @@ void add_obj(char obj) {
     else if((strout.back()=='(') && (symcheck(obj) && obj!='-') ) return;
     else if((numcheck(strout.back())) && obj=='(') return;
     else if(strout.back()==')' && numcheck(obj)) return;
+    else if(!sccheck(obj) && !sccheck(strout.back())) return;
     else { getstrback(); strout += obj;}
 }
 
