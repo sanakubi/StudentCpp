@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/resourse">
+        <file>kit.png</file>
+    </qresource>
+</RCC>
