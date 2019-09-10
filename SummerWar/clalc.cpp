@@ -24,6 +24,20 @@ clalc::~clalc()
 }
 
 static string strout = "";
+static vector<string> backstr = {string()};
+void getstrback() {
+    backstr.push_back(strout);
+}
+void back() {
+    if(backstr.size()>0){
+        strout=backstr.back();
+        backstr.pop_back();
+        qDebug()<<backstr.size();
+    }
+    else return;
+}
+
+bool dev = 0;
 
 bool numcheck(char num){
     return ((num >= 48 && num <= 57)||num == '.');
@@ -35,7 +49,7 @@ bool symcheck(char  a) {
     if ((a == '+' || a == '/' || a == '*' || a == '-' || a == '^' || a == '#') ) return true;
     return false;
 }
-bool minuscheck(int i){
+bool minuscheck(int i) {
     if( (i == 0 || strout[i - 1] == '+' || strout[i - 1] == '/' || strout[i - 1] == '*' || strout[i - 1] == '^'|| strout[i - 1] == '#' || strout[i - 1] == '(') && strout[i]=='-' )return true;
 }
 
@@ -53,43 +67,57 @@ bool sexysystem(string strout) {
         if((symcheck(strout[i]) && (symcheck(strout[i + 1]) && !minuscheck(strout[i + 1])) ) || (sccheck(strout[i]) && sccheck(strout[i + 1])) || symcheck(strout.back())) return false;
 }
 /////
-void add_obj(char obj){
-    if( (symcheck(obj) && obj!='-' && obj!='+') && (symcheck(strout.back()) && strout.back()!='-' && strout.back()!='+') ) return;
+void add_obj(char obj) {
+    if( (symcheck(obj) && obj!='-') && (strout.back()=='(' || symcheck(strout.back()) /* && strout.back()!='-' && strout.back()!='+'*/ ) ) return;
     else if( (obj=='+'||obj=='-') && (strout.back()=='+' || strout.back()=='-') ) {
-        strout.pop_back(); strout+=obj;
+        strout.pop_back();{getstrback(); strout+=obj;}
     }else if(obj=='.'){
         if( strout.length()==0 || symcheck(strout.back()) || strout.back()=='(' ){strout+='0'; strout+=obj;}
         else if(strout.back() == '.') return;
-        else strout += obj;
+        else{ getstrback();strout += obj;}
     }else if(symcheck(obj) && obj!='-' && strout.length()==0) return;
-    else strout += obj;
+    else { getstrback(); strout += obj;}
 }
 
-QString showstrout(){
+QString showstrout() {
     QString str = " ";
-    for(int i=0; i<strout.length(); i++) str+=strout[i];
-    /*for(int i=0; i<strout.length(); i++){
-        if(strout[i]=='^'){
-            if (i + 1 < strout.length()) str += "<sup>";
-             else{
-                str += "^";break;
-            }
+    if(dev)for(int i=0; i<strout.length(); i++) str+=strout[i];
+    else
+    for(int i=0; i<strout.length(); i++) {
+        if( (i==0||i>0 && numcheck(strout[i-1])) && strout[i] == '2' && strout[i + 1] == '#' ) continue;
+        else if(strout[i]=='^'){
+            if(i+1 < strout.length()){str+="<sup>";}
+            else{str+="^";break;}
             i++;
-            if (numcheck(strout[i])) {
-                while(numcheck(strout[i]) && strout[i]!='.' && !symcheck(strout[i])){
-                        str+=strout[i];
-                        i++;
-                    }
-            }
-            else str += "</span>";
-        }
-        else str+=strout[i];
-    } */
+            if(numcheck(strout[i])){
+                while(numcheck(strout[i])){ str+=strout[i];i++;}
+                str+="</sup>";
 
+            } else if(strout[i]=='('){
+                i++;
+                while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
+                str+="</sup>";
+                i++;
+            }
+        } if(strout[i]=='#'){
+            if(i+1 < strout.length()){str+="√<span style=\"text-decoration: overline\">";}
+            else{str+="√";break;}
+            i++;
+            if(numcheck(strout[i])){
+                while(numcheck(strout[i])){ str+=strout[i];i++;}
+                str+="</span>";
+                i--;
+            }else if(strout[i]=='('){
+                i++;
+                while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
+                str+="</span>";
+            }
+        }else str+=strout[i];
+    }
     return str;
 }
 
-int priority(char sym){
+int priority(char sym) {
     switch(sym){
         case '+': case '-': return 2;
         case '/': case '%': case '*': return 3;
@@ -109,28 +137,19 @@ double math(double num1, double num2, char action) {
     }
 }
 
-void del(){
-    if(strout.length()!=0) strout.pop_back();
+
+void del() {
+    if(strout.length()!=0){ getstrback(); strout.pop_back();}
 }
 
-static vector<string> backstr = {string()};
-void getstrback(){
-    backstr.push_back(strout);
-}
-void back(){
-    strout=backstr.back();
-    if(backstr.size()!=0)
-    backstr.pop_back();
-}
-
-void go(){
+void go() {
     vector<char> temp;
     temp.push_back('~');
     vector<char> tur;
     vector<double> num;
     vector<double> num_stack;
+    if (!sexysystem(strout) && sexyc(strout)&&!symcheck(strout.back())){
     getstrback();
-    if (!sexysystem(strout) && sexyc(strout)){
     for (int i = 0; i < strout.length(); i++) {
             if (numcheck(strout[i]) || minuscheck(i)) {
                 if (numcheck(strout[i]) && ((i>0 && (numcheck(strout[i - 1])) || minuscheck(i-1) ))){
@@ -271,6 +290,7 @@ void clalc::on_CEL_clicked(){
     ui->Output->setText(showstrout());
 }
 void clalc::on_Clear_clicked(){
+    getstrback();
     strout = "";
     ui->Output->setText(showstrout());
 }
@@ -282,12 +302,10 @@ void clalc::on_CloseSk_clicked(){
     add_obj(')');
     ui->Output->setText(showstrout());
 }
-
 void clalc::on_kor_clicked(){
     add_obj('#');
     ui->Output->setText(showstrout());
 }
-
 void clalc::on_back_clicked(){
     back();
     ui->Output->setText(showstrout());
@@ -313,6 +331,7 @@ void clalc::keyPressEvent(QKeyEvent * press){
     case Qt::Key_Delete: on_Clear_clicked(); break;
     case Qt::Key_Backspace: on_CEL_clicked(); break;
     case Qt::Key_Z: if( press->modifiers() == Qt::ControlModifier) on_back_clicked(); break;
+    case Qt::Key_Return:on_butt_Go_clicked(); break;
     }
 }
 bool owo_uwu = 0;
@@ -326,7 +345,12 @@ void clalc::on_UWU_clicked()
     }
 }
 
-
-
-
-
+void clalc::on_devmode_button_clicked(){
+    if(dev == 0){
+        ui->devmode_button->setText("dev on");dev = 1;
+        ui->Output->setText(showstrout());
+    }else if(dev == 1){
+        ui->devmode_button->setText("dev of");dev = 0;
+        ui->Output->setText(showstrout());
+    }
+}

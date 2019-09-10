@@ -38,14 +38,11 @@ private slots:
     void on_OpenSk_clicked();
     void on_CloseSk_clicked();
     void on_Clear_clicked();
-
     void on_UWU_clicked();
-
     void on_step_3_clicked();
-
     void on_kor_clicked();
-
     void on_back_clicked();
+    void on_devmode_button_clicked();
 
 protected:
     void keyPressEvent(QKeyEvent *event);

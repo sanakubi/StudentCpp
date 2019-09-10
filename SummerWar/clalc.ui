@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>410</width>
-    <height>516</height>
+    <height>526</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -545,6 +545,12 @@ QPushButton:pressed {
       <height>61</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
     <property name="cursor">
      <cursorShape>ArrowCursor</cursorShape>
     </property>
@@ -593,7 +599,7 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>-80</x>
-      <y>520</y>
+      <y>540</y>
       <width>641</width>
       <height>191</height>
      </rect>
@@ -609,7 +615,7 @@ QPushButton:pressed {
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>470</y>
+      <y>490</y>
       <width>47</width>
       <height>31</height>
      </rect>
@@ -701,6 +707,19 @@ QPushButton:pressed {
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="devmode_button">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>490</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>dev mode</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
