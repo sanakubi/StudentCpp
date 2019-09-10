@@ -71,11 +71,13 @@ bool sexysystem(string strout) {
     for (int i = 0; i < strout.length(); i++)
         if((symcheck(strout[i]) && (symcheck(strout[i + 1]) && !minuscheck(strout[i + 1])) )
                 || (sccheck(strout[i]) && sccheck(strout[i + 1]))
-                || symcheck(strout.back()) ) return false;
+                || (symcheck(strout[i]) && symcheck(strout[i++]))
+                ) return false;
 }
 /////
 void add_obj(char obj) {
-    if( (symcheck(obj) && obj!='-'  ) && (strout.back()=='(' || symcheck(strout.back())) && ((numcheck(obj) && sccheck(strout.back())) || (numcheck(strout.back()) && sccheck(obj)))) return;
+    if( (symcheck(obj) && obj!='-'  ) && (strout.back()=='(' || symcheck(strout.back()))
+            && ((numcheck(obj) && sccheck(strout.back())) || (numcheck(strout.back()) && sccheck(obj)))) return;
             else if( (obj=='+'||obj=='-') && (strout.back()=='+' || strout.back()=='-')) {
         strout.pop_back();{
             strout+=obj;
@@ -89,6 +91,7 @@ void add_obj(char obj) {
             strout += obj;
         }
     }else if(symcheck(obj) && obj!='-' && strout.length()==0) return;
+    else if((symcheck(obj) && obj !='-') && symcheck(strout.back())) return;
     else { getstrback(); strout += obj;}
 }
 
