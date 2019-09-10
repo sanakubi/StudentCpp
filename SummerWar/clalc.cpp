@@ -115,16 +115,17 @@ QString showstrout() {
             } else if(strout[i]=='('){
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
-
                 str+="</sup>";
             }
+            str+="<article>";
         }else if(strout[i]=='#'){
-             int tmp=i-1;
+             int tmp=i;
              while(str[tmp] >= '0' && str[tmp] <= '9'){
                  tmp--;
              }
-             str.insert(tmp, "<sup>");
+             str.insert(tmp, "<sup>	 ");
              str+="</sup>";
+             str+="<article>";
             if(i+1 < strout.length()){str+="√<span style=\"text-decoration: overline\"> ";}
             else{str+="√";break;}
             i++;
@@ -136,8 +137,8 @@ QString showstrout() {
                 i++;
                 while(numcheck(strout[i]) || symcheck(strout[i])){ str+=strout[i];i++;}
                 str+=" </span>";
-
             }
+            str+="<article>";
         }else str+=strout[i];
     }
     return str;
