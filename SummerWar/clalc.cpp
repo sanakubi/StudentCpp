@@ -69,10 +69,7 @@ bool sexysc(string strout) {
 
 bool sexysystem(string strout) {
     for (int i = 0; i < strout.length(); i++)
-        if((symcheck(strout[i]) && (symcheck(strout[i + 1]) && !minuscheck(strout[i + 1])) )
-                || (sccheck(strout[i]) && sccheck(strout[i + 1]))
-                || (symcheck(strout[i]) && symcheck(strout[i++]))
-                ) return false;
+        if((symcheck(strout[i]) && (symcheck(strout[i + 1]) && !minuscheck(strout[i + 1])) )) return false;
 }
 /////
 void add_obj(char obj) {
@@ -92,6 +89,9 @@ void add_obj(char obj) {
         }
     }else if(symcheck(obj) && obj!='-' && strout.length()==0) return;
     else if((symcheck(obj) && obj !='-') && symcheck(strout.back())) return;
+    else if((strout.back()=='(') && (symcheck(obj) && obj!='-') ) return;
+    else if((numcheck(strout.back())) && obj=='(') return;
+    else if(strout.back()==')' && numcheck(obj)) return;
     else { getstrback(); strout += obj;}
 }
 
