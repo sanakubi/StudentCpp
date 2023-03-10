@@ -9,7 +9,7 @@ int x[] = { 9411.0f, 9364.0f, 9341.0f, 9327.0f, 9316.0f, 9304.0f, 9300.0f, 9291.
 //double y[] = { 1000, 900, 810, 720, 640, 550, 460, 370, 280, 19, };
 
 int N = 0;//200;
-long long int SumX2, SumX;
+uint64_t SumX2, SumX;
 float SumlnY, SumXlnY;
 double b, a, bn;
 
@@ -41,7 +41,7 @@ int main()
 {
     int ch;
 
-    //std::cout << GetOne(x, 1) << " " << log(23) << " " << sizeof(x) << " " << sizeof(x[0]) << " " << a << " " << b << "\n";
+    // Y = EXP( A + B * x)
 
     while(1){
         std::cout << " N? : ";
@@ -54,6 +54,7 @@ int main()
 
         std::cout << " " << SumX << " " << SumlnY << " " << SumX2 << " " << SumXlnY << "\n\n";
         std::cout << " A: " << a << " B:" << b << "\n";
+        SumX = SumlnY = SumX2 = SumXlnY = 0;
     }
 
     std::cout << " Bye! :3 \n";
