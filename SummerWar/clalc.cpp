@@ -187,17 +187,26 @@ void go() {
                 }
             }
             else if (!numcheck(strout[i]) || symcheck(strout[i])) {
-                if (sccheck(strout[i])) {
-                    if (priority(strout[i]) <= priority(temp.back())) {
-                        tur.push_back(temp.back());
-                        temp.pop_back();
-                        temp.push_back(strout[i]);
-                    }
-                    else if (priority(strout[i]) >= priority(temp.back())) {
-                        temp.push_back(strout[i]);
-                    }
-                }
-                else if (strout[i] == '(') {
+			    if (sccheck(strout[i])) {
+				    if (priority(strout[i]) < priority(temp.back())) {
+					//cout<<temp.back()<< " > " <<strout[i]<<endl;
+					//tur.push_back(temp.back());
+					//temp.pop_back();
+					    while (symcheck(temp.back())) {
+					    	tur.push_back(temp.back());
+					    	temp.pop_back();
+					    }
+					    temp.push_back(strout[i]);
+			    	}
+			    	else if (priority(strout[i]) > priority(temp.back())) {
+			    		temp.push_back(strout[i]);
+			    	}
+			    	else if (priority(strout[i]) == priority(temp.back())) {
+			    		tur.push_back(temp.back());
+			    		temp.pop_back();
+				    	temp.push_back(strout[i]);
+				    }
+		    	}else if (strout[i] == '(') {
                     temp.push_back(strout[i]);
                 }
                 else if (strout[i] == ')') {
